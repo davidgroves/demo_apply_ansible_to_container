@@ -54,7 +54,7 @@ ansible-playbook -i ansible/inventory/docker.yml ansible/site.yml
 ## Testing the DNS server.
 
 ```
-dig @127.0.0.1 -p 5353 example.localnet.
+dig @127.0.0.1 -p 55533 example.localnet.
 ```
 
 ## Stopping the Rocky Linux container.
