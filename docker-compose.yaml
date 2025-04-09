@@ -1,0 +1,11 @@
+services:
+  rocky:
+    image: eniocarboni/docker-rockylinux-systemd:latest
+    container_name: rocky9
+    privileged: true
+    tty: true
+    stdin_open: true
+    command: /usr/sbin/init
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroup: host

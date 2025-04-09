@@ -1,0 +1,7 @@
+---
+- name: Apply Ansible to Container
+  hosts: all # Specify target hosts
+  tasks:
+    - name: Import tasks
+      ansible.builtin.import_tasks:
+        file: tasks/main.yml
