@@ -40,12 +40,6 @@ docker compose up -d
 docker exec -it rocky9 /bin/bash
 ```
 
-## Stopping the Rocky Linux container.
-
-```
-docker compose down
-```
-
 ## Running Ansible playbooks against the Rocky Linux container.
 
 Note because the [inventory file](inventory/docker.yaml) just calls to get the inventory from the local
@@ -55,4 +49,18 @@ this may not be desirable.
 
 ```
 ansible-playbook -i ansible/inventory/docker.yml ansible/site.yml
+```
+
+## Testing the DNS server.
+
+```
+dig @127.0.0.1 -p 5353 example.localnet.
+```
+
+## Stopping the Rocky Linux container.
+
+Note the docker container has no volumes, so any changes (including applying the ansible playbook) will be lost when you stop the container.
+
+```
+docker compose down
 ```

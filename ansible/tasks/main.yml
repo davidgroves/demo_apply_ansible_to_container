@@ -9,6 +9,11 @@
     name: bind
     state: present
 
+- name: Install procps-ng package
+  ansible.builtin.dnf:
+    name: procps-ng
+    state: present
+
 - name: Create localnet zone file from template
   ansible.builtin.template:
     src: templates/localnet.zone.j2
@@ -26,6 +31,27 @@
           file "localnet.zone";
           allow-update { none; };
       };
+
+- name: Configure named.conf to listen on all IPv4interfaces
+  ansible.builtin.lineinfile:
+    path: /etc/named.conf
+    regexp: '^(\s*)(listen-on port 53 \{ 127\.0\.0\.1; \};)'
+    line: '\1listen-on port 53 { any; };'
+    backrefs: yes
+
+- name: Configure named.conf to listen on all IPv6 interfaces
+  ansible.builtin.lineinfile:
+    path: /etc/named.conf
+    regexp: '^(\s*)(listen-on-v6 port 53 \{ ::1; \};)'
+    line: '\1listen-on-v6 port 53 { any; };'
+    backrefs: yes
+
+- name: Configure named.conf to answer queries from any source
+  ansible.builtin.lineinfile:
+    path: /etc/named.conf
+    regexp: '^(\s*)(allow-query \{ localhost; \};)'
+    line: 'allow-query { any; };'
+    backrefs: yes
 
 - name: Restart named service
   ansible.builtin.service:
